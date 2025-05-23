@@ -27,3 +27,6 @@ dist-ssr
 #pnpm
 pnpm-lock.yaml
 pnpm-workspace.yaml
+
+#env
+.env
