@@ -1,28 +1,14 @@
-import {
-    useContext,
-    useEffect,
-    type Dispatch,
-    type SetStateAction,
-} from 'react';
+import { useEffect } from 'react';
 import StationInputSingle from './StationInputSingle';
 import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { TicketContext } from '@/Providers/ticket.context';
 import toast from 'react-hot-toast';
+import useTicketContext from '@/hooks/useTicketContext';
 
-type TStationInputProps = {
-    setShowTable: Dispatch<SetStateAction<boolean>>;
-    inputCount: number;
-    setInputCount: Dispatch<SetStateAction<number>>;
-};
-
-const StationInput = ({
-    setShowTable,
-    inputCount,
-    setInputCount,
-}: TStationInputProps) => {
-    const { scans, setScans } = useContext(TicketContext);
+const StationInput = () => {
+    const { scans, setScans, inputCount, setInputCount, setShowTable } =
+        useTicketContext();
 
     useEffect(() => {
         setScans(

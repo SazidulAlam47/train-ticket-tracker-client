@@ -8,8 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { TicketContext } from '@/Providers/ticket.context';
-import { useContext } from 'react';
+import useTicketContext from '@/hooks/useTicketContext';
 
 const invoices = [
     {
@@ -57,7 +56,7 @@ const invoices = [
 ];
 
 const TicketTable = () => {
-    const { scans } = useContext(TicketContext);
+    const { scans } = useTicketContext();
 
     console.log(scans);
 

@@ -1,27 +1,10 @@
-import { useState, type Dispatch, type SetStateAction } from 'react';
 import InputCount from './InputCount';
 import StationInput from './StationInput';
+import useTicketContext from '@/hooks/useTicketContext';
 
-type TScanningProps = {
-    setShowTable: Dispatch<SetStateAction<boolean>>;
-};
-
-const Scanning = ({ setShowTable }: TScanningProps) => {
-    const [inputCount, setInputCount] = useState(0);
-
-    return (
-        <>
-            {inputCount ? (
-                <StationInput
-                    setShowTable={setShowTable}
-                    inputCount={inputCount}
-                    setInputCount={setInputCount}
-                />
-            ) : (
-                <InputCount setInputCount={setInputCount} />
-            )}
-        </>
-    );
+const Scanning = () => {
+    const { inputCount } = useTicketContext();
+    return <>{inputCount ? <StationInput /> : <InputCount />}</>;
 };
 
 export default Scanning;
