@@ -1,21 +1,19 @@
 export type TApiResponse = {
     success: boolean;
     message: string;
-    data: TData[];
+    data: ITicket[];
 };
 
-export type TData = {
+export interface ITicket {
     trainName: string;
     departureDateTime: string;
     arrivalDateTime: string;
     travelTime: string;
-    originCity: string;
-    destinationCity: string;
-    seats: TSeat[];
-};
-
-export type TSeat = {
+    from: string;
+    to: string;
     class: string;
-    fare: string;
-    seatCount: number;
-};
+    fare: number;
+    seats: number;
+    now: string;
+    link: string;
+}
