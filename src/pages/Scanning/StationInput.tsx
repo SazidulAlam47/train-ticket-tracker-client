@@ -9,6 +9,7 @@ import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { TicketContext } from '@/Providers/ticket.context';
+import toast from 'react-hot-toast';
 
 type TStationInputProps = {
     setShowTable: Dispatch<SetStateAction<boolean>>;
@@ -34,9 +35,29 @@ const StationInput = ({
     }, [inputCount, setScans]);
 
     const handleScan = () => {
-        console.log(scans);
+        let error = false;
 
-        setShowTable(true);
+        for (const scan of scans) {
+            if (!scan.from) {
+                toast.error('Please enter you departure station');
+                error = true;
+                break;
+            }
+            if (!scan.to) {
+                toast.error('Please enter you destination station');
+                error = true;
+                break;
+            }
+            if (!scan.date) {
+                toast.error('Please enter you journey date');
+                error = true;
+                break;
+            }
+        }
+
+        if (!error) {
+            setShowTable(true);
+        }
     };
 
     return (
