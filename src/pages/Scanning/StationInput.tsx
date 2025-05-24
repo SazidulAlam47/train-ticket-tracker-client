@@ -1,9 +1,14 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
+import {
+    useContext,
+    useEffect,
+    type Dispatch,
+    type SetStateAction,
+} from 'react';
 import StationInputSingle from './StationInputSingle';
 import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import type { TScan } from '@/types/scan.type';
+import { TicketContext } from '@/Providers/ticket.context';
 
 type TStationInputProps = {
     setShowTable: Dispatch<SetStateAction<boolean>>;
@@ -16,7 +21,7 @@ const StationInput = ({
     inputCount,
     setInputCount,
 }: TStationInputProps) => {
-    const [scans, setScans] = useState<TScan[]>([]);
+    const { scans, setScans } = useContext(TicketContext);
 
     useEffect(() => {
         setScans(
@@ -26,7 +31,7 @@ const StationInput = ({
                 date: undefined,
             })),
         );
-    }, [inputCount]);
+    }, [inputCount, setScans]);
 
     const handleScan = () => {
         console.log(scans);
@@ -48,13 +53,7 @@ const StationInput = ({
             </Button>
             {scans.length &&
                 scans.map((scan, index) => (
-                    <StationInputSingle
-                        key={index}
-                        index={index}
-                        scan={scan}
-                        scans={scans}
-                        setScans={setScans}
-                    />
+                    <StationInputSingle key={index} index={index} scan={scan} />
                 ))}
             <Button
                 type="submit"

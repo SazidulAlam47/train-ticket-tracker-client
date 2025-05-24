@@ -8,6 +8,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { TicketContext } from '@/Providers/ticket.context';
+import { useContext } from 'react';
 
 const invoices = [
     {
@@ -55,6 +57,10 @@ const invoices = [
 ];
 
 const TicketTable = () => {
+    const { scans } = useContext(TicketContext);
+
+    console.log(scans);
+
     return (
         <div className="bg-white p-4 rounded-2xl">
             <Table>

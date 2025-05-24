@@ -1,22 +1,18 @@
 import AutoSuggestionInput from '@/components/shared/AutoSuggestionInput/AutoSuggestionInput';
 import MyDatePicker from '@/components/shared/MyDatePicker/MyDatePicker';
 import { Label } from '@/components/ui/label';
+import { TicketContext } from '@/Providers/ticket.context';
 import type { TScan } from '@/types/scan.type';
-import type { Dispatch, SetStateAction } from 'react';
+import { useContext, type SetStateAction } from 'react';
 
 type TStationInputSingleProps = {
     index: number;
     scan: TScan;
-    scans: TScan[];
-    setScans: Dispatch<SetStateAction<TScan[]>>;
 };
 
-const StationInputSingle = ({
-    index,
-    scan,
-    scans,
-    setScans,
-}: TStationInputSingleProps) => {
+const StationInputSingle = ({ index, scan }: TStationInputSingleProps) => {
+    const { scans, setScans } = useContext(TicketContext);
+
     const updateField = (
         field: keyof TScan,
         value: SetStateAction<string> | SetStateAction<Date | undefined>,
