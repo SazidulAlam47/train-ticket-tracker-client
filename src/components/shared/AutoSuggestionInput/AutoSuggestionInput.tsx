@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { FormEvent } from 'react';
+import type { Dispatch, FormEvent, SetStateAction } from 'react';
 import Autosuggest from 'react-autosuggest';
 import type { SuggestionsFetchRequestedParams } from 'react-autosuggest';
 import './AutoSuggestionInput.css';
@@ -17,10 +17,15 @@ const renderSuggestion = (suggestion: TStation) => <div>{suggestion.name}</div>;
 
 type TAutoSuggestionInputProps = {
     placeholder: string;
+    value: string;
+    setValue: Dispatch<SetStateAction<string>>;
 };
 
-const AutoSuggestionInput = ({ placeholder }: TAutoSuggestionInputProps) => {
-    const [value, setValue] = useState('');
+const AutoSuggestionInput = ({
+    placeholder,
+    value,
+    setValue,
+}: TAutoSuggestionInputProps) => {
     const [suggestionsList, setSuggestionsList] = useState<TStation[]>([]);
 
     const onChange = (
