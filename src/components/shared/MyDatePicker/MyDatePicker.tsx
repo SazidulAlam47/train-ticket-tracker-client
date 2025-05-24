@@ -8,11 +8,11 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import './MyDatePicker.css';
-import moment from 'moment';
-import momentZone from 'moment-timezone';
+import moment from 'moment-timezone';
+import type { Dispatch, SetStateAction } from 'react';
 
-const todayInDhaka = momentZone.tz('Asia/Dhaka').startOf('day').toDate();
-const maxDateInDhaka = momentZone
+const todayInDhaka = moment.tz('Asia/Dhaka').startOf('day').toDate();
+const maxDateInDhaka = moment
     .tz('Asia/Dhaka')
     .add(10, 'days')
     .endOf('day')
@@ -20,7 +20,7 @@ const maxDateInDhaka = momentZone
 
 type TMyDatePicker = {
     date: Date | undefined;
-    setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+    setDate: Dispatch<SetStateAction<Date | undefined>>;
 };
 
 const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
