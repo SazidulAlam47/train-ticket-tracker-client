@@ -1,8 +1,9 @@
-import type { Dispatch, SetStateAction } from 'react';
+import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import StationInputSingle from './StationInputSingle';
 import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import type { TScan } from '@/types/scan.type';
 
 type TStationInputProps = {
     setShowTable: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +16,24 @@ const StationInput = ({
     inputCount,
     setInputCount,
 }: TStationInputProps) => {
+    const [scans, setScans] = useState<TScan[]>([]);
+
+    useEffect(() => {
+        setScans(
+            Array.from({ length: inputCount }, () => ({
+                from: '',
+                to: '',
+                date: undefined,
+            })),
+        );
+    }, [inputCount]);
+
+    const handleScan = () => {
+        console.log(scans);
+
+        setShowTable(true);
+    };
+
     return (
         <div className="bg-white p-4 rounded-2xl max-w-3xl mx-auto">
             <Heading />
@@ -27,13 +46,23 @@ const StationInput = ({
                 <IoMdArrowRoundBack />
                 Go Back
             </Button>
-            <StationInputSingle />
+            {scans.length &&
+                scans.map((scan, index) => (
+                    <StationInputSingle
+                        key={index}
+                        index={index}
+                        scan={scan}
+                        scans={scans}
+                        setScans={setScans}
+                    />
+                ))}
             <Button
                 type="submit"
                 size="lg"
                 className="w-full text-base cursor-pointer bg-blue-500 hover:bg-blue-600"
+                onClick={handleScan}
             >
-                Generate
+                Scan
             </Button>
         </div>
     );
