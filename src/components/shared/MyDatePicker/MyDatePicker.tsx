@@ -1,0 +1,58 @@
+import { Calendar as CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover';
+import './MyDatePicker.css';
+import moment from 'moment';
+import momentZone from 'moment-timezone';
+
+const todayInDhaka = momentZone.tz('Asia/Dhaka').startOf('day').toDate();
+const maxDateInDhaka = momentZone
+    .tz('Asia/Dhaka')
+    .add(10, 'days')
+    .endOf('day')
+    .toDate();
+
+type TMyDatePicker = {
+    date: Date | undefined;
+    setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+};
+
+const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
+    return (
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button
+                    variant={'outline'}
+                    className={cn(
+                        'w-full justify-start text-left font-normal date-input',
+                        !date && 'text-muted-foreground hover:text-[#777]',
+                    )}
+                >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? (
+                        <span>{moment(date).format('DD MMM, YYYY')}</span>
+                    ) : (
+                        <span>Pick a date</span>
+                    )}
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    fromDate={todayInDhaka}
+                    toDate={maxDateInDhaka}
+                    initialFocus
+                />
+            </PopoverContent>
+        </Popover>
+    );
+};
+export default MyDatePicker;
