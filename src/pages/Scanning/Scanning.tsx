@@ -1,21 +1,26 @@
 import { useState, type Dispatch, type SetStateAction } from 'react';
 import InputCount from './InputCount';
+import StationInput from './StationInput';
 
 type TScanningProps = {
     setShowTable: Dispatch<SetStateAction<boolean>>;
 };
 
-const Scanning = ({ setShowTables }: TScanningProps) => {
+const Scanning = ({ setShowTable }: TScanningProps) => {
     const [inputCount, setInputCount] = useState(0);
-    console.log(inputCount);
+
     return (
-        <div>
+        <>
             {inputCount ? (
-                <p>coming</p>
+                <StationInput
+                    setShowTable={setShowTable}
+                    inputCount={inputCount}
+                    setInputCount={setInputCount}
+                />
             ) : (
                 <InputCount setInputCount={setInputCount} />
             )}
-        </div>
+        </>
     );
 };
 

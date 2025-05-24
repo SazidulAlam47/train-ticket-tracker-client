@@ -1,4 +1,5 @@
 import ErrorMessage from '@/components/shared/ErrorMessage';
+import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -26,17 +27,17 @@ const InputCount = ({ setInputCount }: TInputCountProps) => {
     };
 
     return (
-        <div className="bg-white p-4 rounded-2xl">
-            <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">
-                Train Ticket Tracker
-            </h1>
+        <div className="bg-white p-4 rounded-2xl max-w-xl mx-auto">
+            <Heading />
             <form
                 className="flex flex-col gap-4"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <Label htmlFor="picture">Enter number of scans</Label>
+                <Label htmlFor="inputCount">Enter number of scans</Label>
                 <Input
+                    className="h-10 text-base"
                     type="number"
+                    id="inputCount"
                     placeholder="Enter number of scans"
                     {...register('inputCount', {
                         required: 'Please enter a number',
@@ -49,7 +50,8 @@ const InputCount = ({ setInputCount }: TInputCountProps) => {
                 <ErrorMessage message={errors.inputCount?.message} />
                 <Button
                     type="submit"
-                    className="cursor-pointer bg-green-500 hover:bg-green-600"
+                    size="lg"
+                    className="text-base cursor-pointer bg-green-500 hover:bg-green-600"
                 >
                     Generate
                 </Button>
