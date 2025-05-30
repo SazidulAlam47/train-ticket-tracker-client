@@ -18,6 +18,7 @@ import axios from 'axios';
 import type { ITicket } from '@/types/ticket.type';
 import { ImSpinner9 } from 'react-icons/im';
 import audio from '@/assets/audio/notification.mp3';
+import toast from 'react-hot-toast';
 
 const TicketTable = () => {
     const { scans, setInputCount, setShowTable } = useTicketContext();
@@ -46,20 +47,42 @@ const TicketTable = () => {
                     const oldTickets = ticketsObj[key] || [];
 
                     newTickets.forEach((newTicket) => {
-                        const match = oldTickets.find(
+                        const matchOldTicket = oldTickets.find(
                             (oldTicket) =>
                                 oldTicket.trainName === newTicket.trainName &&
                                 oldTicket.class === newTicket.class,
                         );
 
-                        if (match && newTicket.seats > match.seats) {
+                        if (
+                            matchOldTicket &&
+                            newTicket.seats > matchOldTicket.seats
+                        ) {
                             notificationAudio.current.play();
+                        }
+                        if (!matchOldTicket) {
+                            notificationAudio.current.play();
+                            oldTickets.push(newTicket);
+                        }
+                    });
+
+                    oldTickets.forEach((oldTicket) => {
+                        const newTicketMatch = newTickets.find(
+                            (newTicket) =>
+                                oldTicket.trainName === newTicket.trainName &&
+                                oldTicket.class === newTicket.class,
+                        );
+
+                        if (newTicketMatch) {
+                            oldTicket.seats = newTicketMatch.seats;
+                            oldTicket.now = newTicketMatch.now;
+                        } else {
+                            oldTicket.seats = 0;
                         }
                     });
 
                     setTicketsObj((prev) => ({
                         ...prev,
-                        [key]: newTickets,
+                        [key]: oldTickets,
                     }));
                 } catch (error) {
                     console.error('Failed to fetch tickets:', error);
@@ -72,6 +95,27 @@ const TicketTable = () => {
 
     const trainTickets: ITicket[] = Object.values(ticketsObj).flat();
 
+    const handleStop = () => {
+        setInputCount(0);
+        setShowTable(false);
+    };
+
+    const handleTestAudio = () => {
+        notificationAudio.current.play();
+    };
+
+    const handelClear = () => {
+        toast.success('Unavailable tickets removed');
+        const filteredTicketsObj: Record<string, ITicket[]> = {};
+
+        Object.entries(ticketsObj).forEach(([key, tickets]) => {
+            const availableTickets = tickets.filter((ticket) => ticket.seats);
+            filteredTicketsObj[key] = availableTickets;
+        });
+
+        setTicketsObj(filteredTicketsObj);
+    };
+
     return (
         <div className="min-h-[90vh]">
             <h1 className="text-center text-2xl font-extrabold text-[#305c85] mb-6">
@@ -80,10 +124,7 @@ const TicketTable = () => {
             <div className="flex gap-4 mb-6 justify-center">
                 <Button
                     className="bg-[#df3c4f] hover:bg-red-700 cursor-pointer"
-                    onClick={() => {
-                        setInputCount(0);
-                        setShowTable(false);
-                    }}
+                    onClick={handleStop}
                 >
                     <IoStopCircle />
                     Stop Scanning
@@ -91,12 +132,15 @@ const TicketTable = () => {
 
                 <Button
                     className=" bg-[#2f6493] hover:bg-[#314c63] cursor-pointer"
-                    onClick={() => notificationAudio.current.play()}
+                    onClick={handleTestAudio}
                 >
                     <HiMiniSpeakerWave />
                     Test Audio
                 </Button>
-                <Button className="bg-[#22864f] hover:bg-green-800 cursor-pointer">
+                <Button
+                    className="bg-[#22864f] hover:bg-green-800 cursor-pointer"
+                    onClick={handelClear}
+                >
                     <BsFillTrashFill /> Clear Unavailable
                 </Button>
             </div>
@@ -107,7 +151,7 @@ const TicketTable = () => {
                     tickets, please wait...
                 </p>
             ) : trainTickets.length ? (
-                <div className="bg-white p-4 rounded-2xl">
+                <div className="bg-white px-4 py-3 rounded-2xl">
                     <Table>
                         <TableHeader>
                             <TableRow className="text-base">
@@ -124,7 +168,7 @@ const TicketTable = () => {
                         </TableHeader>
                         <TableBody>
                             {trainTickets.map((ticket, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} className="h-11">
                                     <TableCell>{ticket.from}</TableCell>
                                     <TableCell>{ticket.to}</TableCell>
                                     <TableCell>
@@ -138,14 +182,21 @@ const TicketTable = () => {
                                         {moment(ticket.now).format('h:mm:ss a')}
                                     </TableCell>
                                     <TableCell>
-                                        <a href={ticket.link} target="_blank">
-                                            <Button
-                                                size="sm"
-                                                className="cursor-pointer bg-[#22864f] hover:bg-green-800"
+                                        {ticket.seats ? (
+                                            <a
+                                                href={ticket.link}
+                                                target="_blank"
                                             >
-                                                Purchase
-                                            </Button>
-                                        </a>
+                                                <Button
+                                                    size="sm"
+                                                    className="cursor-pointer bg-[#22864f] hover:bg-green-800"
+                                                >
+                                                    Purchase
+                                                </Button>
+                                            </a>
+                                        ) : (
+                                            ''
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}

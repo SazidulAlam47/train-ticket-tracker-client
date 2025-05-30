@@ -3,9 +3,17 @@ import TicketTable from './pages/TicketTable/TicketTable';
 import bgImage from '@/assets/page-bg.svg';
 import Scanning from './pages/Scanning/Scanning';
 import useTicketContext from './hooks/useTicketContext';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const App = () => {
     const { showTable } = useTicketContext();
+
+    // send a request to active the backend
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_API_URL);
+    }, []);
+
     return (
         <main className="flex justify-center items-center min-h-screen p-5">
             <Container>
