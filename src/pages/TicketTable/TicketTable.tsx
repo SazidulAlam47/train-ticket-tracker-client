@@ -13,58 +13,38 @@ import { IoStopCircle } from 'react-icons/io5';
 import { BsFillTrashFill } from 'react-icons/bs';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
-
-const trainTickets = [
-    {
-        trainName: 'JAYENTIKA EXPRESS (717)',
-        departureDateTime: '25 May, 11:15 am',
-        arrivalDateTime: '25 May, 07:00 pm',
-        travelTime: '07h 45m',
-        from: 'Dhaka',
-        to: 'Sylhet',
-        class: 'AC_S',
-        fare: 750,
-        seats: 2,
-        now: '2025-05-24T19:02:16.328Z',
-        link: 'https://eticket.railway.gov.bd/booking/train/search?fromcity=Dhaka&tocity=Sylhet&doj=25-May-2025&class=AC_S',
-    },
-    {
-        trainName: 'JAYENTIKA EXPRESS (717)',
-        departureDateTime: '25 May, 11:15 am',
-        arrivalDateTime: '25 May, 07:00 pm',
-        travelTime: '07h 45m',
-        from: 'Dhaka',
-        to: 'Sylhet',
-        class: 'S_CHAIR',
-        fare: 375,
-        seats: 1,
-        now: '2025-05-24T19:02:16.328Z',
-        link: 'https://eticket.railway.gov.bd/booking/train/search?fromcity=Dhaka&tocity=Sylhet&doj=25-May-2025&class=S_CHAIR',
-    },
-    {
-        trainName: 'JAYENTIKA EXPRESS (717)',
-        departureDateTime: '25 May, 11:15 am',
-        arrivalDateTime: '25 May, 07:00 pm',
-        travelTime: '07h 45m',
-        from: 'Dhaka',
-        to: 'Sylhet',
-        class: 'SNIGDHA',
-        fare: 625,
-        seats: 9,
-        now: '2025-05-24T19:02:16.328Z',
-        link: 'https://eticket.railway.gov.bd/booking/train/search?fromcity=Dhaka&tocity=Sylhet&doj=25-May-2025&class=SNIGDHA',
-    },
-];
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import type { ITicket } from '@/types/ticket.type';
 
 const TicketTable = () => {
     const { scans } = useTicketContext();
+    const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket>>({});
 
-    const date = scans[0].date!;
-    const formatted = formatDateToStr(date);
-    console.log({ date, formatted });
+    useEffect(() => {
+        setTimeout(() => {
+            for (const scan of scans) {
+                axios
+                    .post(`${import.meta.env.VITE_API_URL}/api/v1/tickets`, {
+                        from: scan.from,
+                        to: scan.to,
+                        date: formatDateToStr(scan.date!),
+                    })
+                    .then((res) => {
+                        setTicketsObj((prev) => ({
+                            ...prev,
+                            [`${scan.from}-${scan.to}-${formatDateToStr(scan.date!)}`]:
+                                res.data.data,
+                        }));
+                    });
+            }
+        }, 15000);
+    }, [scans]);
+
+    const trainTickets = Object.values(ticketsObj).flat();
 
     return (
-        <div>
+        <div className="min-h-[90vh]">
             <h1 className="text-center text-2xl font-extrabold text-[#305c85] mb-6">
                 Train Ticket Tracker
             </h1>

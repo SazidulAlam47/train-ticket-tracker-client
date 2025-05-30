@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -24,8 +25,17 @@ type TMyDatePicker = {
 };
 
 const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
+    const [open, setOpen] = useState(false);
+
+    const handleSelect = (selectedDate: Date | undefined) => {
+        if (selectedDate) {
+            setDate(selectedDate);
+            setOpen(false);
+        }
+    };
+
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
                     variant={'outline'}
@@ -46,7 +56,7 @@ const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
                 <Calendar
                     mode="single"
                     selected={date}
-                    onSelect={setDate}
+                    onSelect={handleSelect}
                     fromDate={todayInDhaka}
                     toDate={maxDateInDhaka}
                     initialFocus
@@ -55,4 +65,5 @@ const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
         </Popover>
     );
 };
+
 export default MyDatePicker;
