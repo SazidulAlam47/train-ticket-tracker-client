@@ -38,11 +38,28 @@ const TicketTable = () => {
                             date: formatDate,
                         },
                     );
+
                     setIsLoading(false);
+
+                    const key = `${scan.from}-${scan.to}-${formatDate}`;
+                    const newTickets = res.data.data as ITicket[];
+                    const oldTickets = ticketsObj[key] || [];
+
+                    newTickets.forEach((newTicket) => {
+                        const match = oldTickets.find(
+                            (oldTicket) =>
+                                oldTicket.trainName === newTicket.trainName &&
+                                oldTicket.class === newTicket.class,
+                        );
+
+                        if (match && newTicket.seats > match.seats) {
+                            notificationAudio.current.play();
+                        }
+                    });
+
                     setTicketsObj((prev) => ({
                         ...prev,
-                        [`${scan.from}-${scan.to}-${formatDate}`]:
-                            res.data.data,
+                        [key]: newTickets,
                     }));
                 } catch (error) {
                     console.error('Failed to fetch tickets:', error);
@@ -51,7 +68,7 @@ const TicketTable = () => {
         }, 15000);
 
         return () => clearInterval(timer);
-    }, [scans]);
+    }, [scans, ticketsObj]);
 
     const trainTickets: ITicket[] = Object.values(ticketsObj).flat();
 
