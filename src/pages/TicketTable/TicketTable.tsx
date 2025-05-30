@@ -158,7 +158,7 @@ const TicketTable = () => {
                                 <TableHead>From</TableHead>
                                 <TableHead>To</TableHead>
                                 <TableHead>Journey Date</TableHead>
-                                <TableHead>Train</TableHead>
+                                <TableHead>Train Name</TableHead>
                                 <TableHead>Class</TableHead>
                                 <TableHead>Seats</TableHead>
                                 <TableHead>Fare</TableHead>
