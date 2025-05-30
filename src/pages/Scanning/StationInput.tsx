@@ -65,7 +65,7 @@ const StationInput = () => {
             <Button
                 type="submit"
                 size="lg"
-                className="w-full text-base cursor-pointer bg-blue-500 hover:bg-blue-600"
+                className="w-full text-base cursor-pointer bg-[#2f6493] hover:bg-[#164973]"
                 onClick={handleScan}
             >
                 Scan

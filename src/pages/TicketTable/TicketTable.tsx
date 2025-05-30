@@ -19,29 +19,37 @@ import type { ITicket } from '@/types/ticket.type';
 
 const TicketTable = () => {
     const { scans } = useTicketContext();
-    const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket>>({});
+    const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket[]>>({});
 
     useEffect(() => {
-        setTimeout(() => {
-            for (const scan of scans) {
-                axios
-                    .post(`${import.meta.env.VITE_API_URL}/api/v1/tickets`, {
-                        from: scan.from,
-                        to: scan.to,
-                        date: formatDateToStr(scan.date!),
-                    })
-                    .then((res) => {
-                        setTicketsObj((prev) => ({
-                            ...prev,
-                            [`${scan.from}-${scan.to}-${formatDateToStr(scan.date!)}`]:
-                                res.data.data,
-                        }));
-                    });
-            }
+        const timer = setInterval(() => {
+            scans.forEach(async (scan) => {
+                const formatDate = formatDateToStr(scan.date!);
+                try {
+                    const res = await axios.post(
+                        `${import.meta.env.VITE_API_URL}/api/v1/tickets`,
+                        {
+                            from: scan.from,
+                            to: scan.to,
+                            date: formatDate,
+                        },
+                    );
+
+                    setTicketsObj((prev) => ({
+                        ...prev,
+                        [`${scan.from}-${scan.to}-${formatDate}`]:
+                            res.data.data,
+                    }));
+                } catch (error) {
+                    console.error('Failed to fetch tickets:', error);
+                }
+            });
         }, 15000);
+
+        return () => clearInterval(timer);
     }, [scans]);
 
-    const trainTickets = Object.values(ticketsObj).flat();
+    const trainTickets: ITicket[] = Object.values(ticketsObj).flat();
 
     return (
         <div className="min-h-[90vh]">

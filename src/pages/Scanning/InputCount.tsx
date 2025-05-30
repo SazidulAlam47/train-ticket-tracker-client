@@ -48,7 +48,7 @@ const InputCount = () => {
                 <Button
                     type="submit"
                     size="lg"
-                    className="text-base cursor-pointer bg-green-500 hover:bg-green-600"
+                    className="text-base cursor-pointer bg-[#1ca559] hover:bg-[#167457]"
                 >
                     Generate
                 </Button>
