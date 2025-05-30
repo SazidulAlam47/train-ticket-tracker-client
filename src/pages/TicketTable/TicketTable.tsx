@@ -13,15 +13,17 @@ import { IoStopCircle } from 'react-icons/io5';
 import { BsFillTrashFill } from 'react-icons/bs';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import type { ITicket } from '@/types/ticket.type';
 import { ImSpinner9 } from 'react-icons/im';
+import audio from '@/assets/audio/notification.mp3';
 
 const TicketTable = () => {
-    const { scans } = useTicketContext();
+    const { scans, setInputCount, setShowTable } = useTicketContext();
     const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket[]>>({});
     const [isLoading, setIsLoading] = useState(true);
+    const notificationAudio = useRef(new Audio(audio));
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -59,12 +61,21 @@ const TicketTable = () => {
                 Train Ticket Tracker
             </h1>
             <div className="flex gap-4 mb-6 justify-center">
-                <Button className="bg-[#df3c4f] hover:bg-red-700 cursor-pointer">
+                <Button
+                    className="bg-[#df3c4f] hover:bg-red-700 cursor-pointer"
+                    onClick={() => {
+                        setInputCount(0);
+                        setShowTable(false);
+                    }}
+                >
                     <IoStopCircle />
                     Stop Scanning
                 </Button>
 
-                <Button className=" bg-[#2f6493] hover:bg-[#314c63] cursor-pointer">
+                <Button
+                    className=" bg-[#2f6493] hover:bg-[#314c63] cursor-pointer"
+                    onClick={() => notificationAudio.current.play()}
+                >
                     <HiMiniSpeakerWave />
                     Test Audio
                 </Button>
@@ -75,9 +86,10 @@ const TicketTable = () => {
 
             {isLoading ? (
                 <p className="bg-white  mt-14 py-3 px-4 rounded-2xl w-fit mx-auto flex items-center gap-3">
-                    <ImSpinner9 className="animate-spin" /> Loading...
+                    <ImSpinner9 className="animate-spin" /> Scanning for
+                    tickets, please wait...
                 </p>
-            ) : (
+            ) : trainTickets.length ? (
                 <div className="bg-white p-4 rounded-2xl">
                     <Table>
                         <TableHeader>
@@ -123,6 +135,11 @@ const TicketTable = () => {
                         </TableBody>
                     </Table>
                 </div>
+            ) : (
+                <p className="bg-white  mt-14 py-3 px-4 rounded-2xl w-fit mx-auto">
+                    Tickets are currently not available. They will be displayed
+                    here once they become available.
+                </p>
             )}
         </div>
     );
