@@ -16,10 +16,12 @@ import formatDateToStr from '@/utils/formatDateToStr';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import type { ITicket } from '@/types/ticket.type';
+import { ImSpinner9 } from 'react-icons/im';
 
 const TicketTable = () => {
     const { scans } = useTicketContext();
     const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket[]>>({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -34,7 +36,7 @@ const TicketTable = () => {
                             date: formatDate,
                         },
                     );
-
+                    setIsLoading(false);
                     setTicketsObj((prev) => ({
                         ...prev,
                         [`${scan.from}-${scan.to}-${formatDate}`]:
@@ -70,51 +72,58 @@ const TicketTable = () => {
                     <BsFillTrashFill /> Clear Unavailable
                 </Button>
             </div>
-            <div className="bg-white p-4 rounded-2xl">
-                <Table>
-                    <TableHeader>
-                        <TableRow className="text-base">
-                            <TableHead>From</TableHead>
-                            <TableHead>To</TableHead>
-                            <TableHead>Journey Date</TableHead>
-                            <TableHead>Train</TableHead>
-                            <TableHead>Class</TableHead>
-                            <TableHead>Seats</TableHead>
-                            <TableHead>Fare</TableHead>
-                            <TableHead>Was Available at</TableHead>
-                            <TableHead>Purchase</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {trainTickets.map((ticket, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{ticket.from}</TableCell>
-                                <TableCell>{ticket.to}</TableCell>
-                                <TableCell>
-                                    {ticket.departureDateTime}
-                                </TableCell>
-                                <TableCell>{ticket.trainName}</TableCell>
-                                <TableCell>{ticket.class}</TableCell>
-                                <TableCell>{ticket.seats}</TableCell>
-                                <TableCell>{ticket.fare}</TableCell>
-                                <TableCell>
-                                    {moment(ticket.now).format('h:mm:ss a')}
-                                </TableCell>
-                                <TableCell>
-                                    <a href={ticket.link} target="_blank">
-                                        <Button
-                                            size="sm"
-                                            className="cursor-pointer bg-[#22864f] hover:bg-green-800"
-                                        >
-                                            Purchase
-                                        </Button>
-                                    </a>
-                                </TableCell>
+
+            {isLoading ? (
+                <p className="bg-white  mt-14 py-3 px-4 rounded-2xl w-fit mx-auto flex items-center gap-3">
+                    <ImSpinner9 className="animate-spin" /> Loading...
+                </p>
+            ) : (
+                <div className="bg-white p-4 rounded-2xl">
+                    <Table>
+                        <TableHeader>
+                            <TableRow className="text-base">
+                                <TableHead>From</TableHead>
+                                <TableHead>To</TableHead>
+                                <TableHead>Journey Date</TableHead>
+                                <TableHead>Train</TableHead>
+                                <TableHead>Class</TableHead>
+                                <TableHead>Seats</TableHead>
+                                <TableHead>Fare</TableHead>
+                                <TableHead>Was Available at</TableHead>
+                                <TableHead>Purchase</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {trainTickets.map((ticket, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{ticket.from}</TableCell>
+                                    <TableCell>{ticket.to}</TableCell>
+                                    <TableCell>
+                                        {ticket.departureDateTime}
+                                    </TableCell>
+                                    <TableCell>{ticket.trainName}</TableCell>
+                                    <TableCell>{ticket.class}</TableCell>
+                                    <TableCell>{ticket.seats}</TableCell>
+                                    <TableCell>{ticket.fare}</TableCell>
+                                    <TableCell>
+                                        {moment(ticket.now).format('h:mm:ss a')}
+                                    </TableCell>
+                                    <TableCell>
+                                        <a href={ticket.link} target="_blank">
+                                            <Button
+                                                size="sm"
+                                                className="cursor-pointer bg-[#22864f] hover:bg-green-800"
+                                            >
+                                                Purchase
+                                            </Button>
+                                        </a>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
         </div>
     );
 };
