@@ -55,6 +55,17 @@ const InputCount = () => {
                     Generate
                 </Button>
             </form>
+            <p className="text-sm text-center mt-5 text-[#2c3e50]">
+                This project is open source. Check it out on{' '}
+                <a
+                    href="https://github.com/SazidulAlam47/train-ticket-tracker-client"
+                    target="_blank"
+                    className="font-bold text-[#167457] hover:text-[#1c6650]"
+                >
+                    GitHub
+                </a>
+                .
+            </p>
         </div>
     );
 };
