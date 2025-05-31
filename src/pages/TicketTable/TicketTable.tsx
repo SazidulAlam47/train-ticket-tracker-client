@@ -19,6 +19,7 @@ import type { ITicket } from '@/types/ticket.type';
 import { ImSpinner9 } from 'react-icons/im';
 import audio from '@/assets/audio/notification.mp3';
 import toast from 'react-hot-toast';
+import newTicketToast from '@/utils/newTicketToast';
 
 const TicketTable = () => {
     const { scans, setInputCount, setShowTable } = useTicketContext();
@@ -40,8 +41,6 @@ const TicketTable = () => {
                         },
                     );
 
-                    setIsLoading(false);
-
                     const key = `${scan.from}-${scan.to}-${formatDate}`;
                     const newTickets = res.data.data as ITicket[];
                     const oldTickets = ticketsObj[key] || [];
@@ -57,11 +56,17 @@ const TicketTable = () => {
                             matchOldTicket &&
                             newTicket.seats > matchOldTicket.seats
                         ) {
-                            notificationAudio.current.play();
+                            if (!isLoading) {
+                                notificationAudio.current.play();
+                                newTicketToast(newTicket);
+                            }
                         }
                         if (!matchOldTicket) {
-                            notificationAudio.current.play();
                             oldTickets.push(newTicket);
+                            if (!isLoading) {
+                                notificationAudio.current.play();
+                                newTicketToast(newTicket);
+                            }
                         }
                     });
 
@@ -88,10 +93,11 @@ const TicketTable = () => {
                     console.error('Failed to fetch tickets:', error);
                 }
             });
+            setIsLoading(false);
         }, 15000);
 
         return () => clearInterval(timer);
-    }, [scans, ticketsObj]);
+    }, [scans, ticketsObj, isLoading]);
 
     const trainTickets: ITicket[] = Object.values(ticketsObj).flat();
 
@@ -110,7 +116,7 @@ const TicketTable = () => {
         const findUnavailable = trainTickets.find((t) => t.seats === 0);
         if (!findUnavailable) {
             toast('No unavailable tickets found', {
-                icon: <BsInfoCircleFill size={20} className="text-[#3498db]" />,
+                icon: <BsInfoCircleFill size={18} className="text-[#3498db]" />,
             });
             return;
         }
