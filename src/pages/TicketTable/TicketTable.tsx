@@ -10,7 +10,7 @@ import {
 import useTicketContext from '@/hooks/useTicketContext';
 import { HiMiniSpeakerWave } from 'react-icons/hi2';
 import { IoStopCircle } from 'react-icons/io5';
-import { BsFillTrashFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsInfoCircleFill } from 'react-icons/bs';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
 import { useEffect, useRef, useState } from 'react';
@@ -105,23 +105,31 @@ const TicketTable = () => {
     };
 
     const handelClear = () => {
-        toast.success('Unavailable tickets removed');
         const filteredTicketsObj: Record<string, ITicket[]> = {};
+
+        const findUnavailable = trainTickets.find((t) => t.seats === 0);
+        if (!findUnavailable) {
+            toast('No unavailable tickets found', {
+                icon: <BsInfoCircleFill size={20} className="text-[#3498db]" />,
+            });
+            return;
+        }
 
         Object.entries(ticketsObj).forEach(([key, tickets]) => {
             const availableTickets = tickets.filter((ticket) => ticket.seats);
             filteredTicketsObj[key] = availableTickets;
         });
 
+        toast.success('Unavailable tickets removed');
         setTicketsObj(filteredTicketsObj);
     };
 
     return (
-        <div className="min-h-[90vh]">
+        <div className="min-h-[90dvh]">
             <h1 className="text-center text-2xl font-extrabold text-[#305c85] mb-6">
                 Train Ticket Tracker
             </h1>
-            <div className="flex gap-4 mb-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
                 <Button
                     className="bg-[#df3c4f] hover:bg-red-700 cursor-pointer"
                     onClick={handleStop}
@@ -177,11 +185,11 @@ const TicketTable = () => {
                                     <TableCell>{ticket.trainName}</TableCell>
                                     <TableCell>{ticket.class}</TableCell>
                                     <TableCell>{ticket.seats}</TableCell>
-                                    <TableCell>{ticket.fare}</TableCell>
+                                    <TableCell>৳ {ticket.fare}</TableCell>
                                     <TableCell>
                                         {moment(ticket.now).format('h:mm:ss a')}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="w-fit">
                                         {ticket.seats ? (
                                             <a
                                                 href={ticket.link}
@@ -204,7 +212,7 @@ const TicketTable = () => {
                     </Table>
                 </div>
             ) : (
-                <p className="bg-white  mt-14 py-3 px-4 rounded-2xl w-fit mx-auto">
+                <p className="bg-white  mt-14 py-3 px-4 rounded-2xl w-fit mx-auto text-center">
                     Tickets are currently not available. They will be displayed
                     here once they become available.
                 </p>

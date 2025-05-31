@@ -23,7 +23,7 @@ const StationInputSingle = ({ index, scan }: TStationInputSingleProps) => {
     };
 
     return (
-        <div className="bg-gray-50 p-6 mb-6 rounded-lg shadow-md border border-gray-300">
+        <div className="bg-gray-50 p-3.5 md:p-6 rounded-lg shadow-md border border-gray-300">
             <h3 className="text-lg font-semibold text-gray-700 mb-4">
                 Scan {index + 1}
             </h3>
@@ -32,13 +32,13 @@ const StationInputSingle = ({ index, scan }: TStationInputSingleProps) => {
             <AutoSuggestionInput
                 value={scan.from}
                 setValue={(val) => updateField('from', val)}
-                placeholder="Type your departure station"
+                placeholder="Enter your departure station"
             />
             <Label className="block text-gray-600 mt-4 mb-2">To:</Label>
             <AutoSuggestionInput
                 value={scan.to}
                 setValue={(val) => updateField('to', val)}
-                placeholder="Type your destination station"
+                placeholder="Enter your destination station"
             />
             <Label className="block text-gray-600 mt-4 mb-2">Date:</Label>
             <MyDatePicker

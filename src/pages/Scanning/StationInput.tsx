@@ -47,7 +47,7 @@ const StationInput = () => {
     };
 
     return (
-        <div className="bg-white p-4 rounded-2xl max-w-3xl mx-auto">
+        <div className="bg-white px-2.5 py-3 md:p-4 rounded-2xl max-w-3xl mx-auto">
             <Heading />
             <Button
                 variant="secondary"
@@ -58,10 +58,16 @@ const StationInput = () => {
                 <IoMdArrowRoundBack />
                 Go Back
             </Button>
-            {scans.length &&
-                scans.map((scan, index) => (
-                    <StationInputSingle key={index} index={index} scan={scan} />
-                ))}
+            <div className="space-y-5 mb-5">
+                {scans.length &&
+                    scans.map((scan, index) => (
+                        <StationInputSingle
+                            key={index}
+                            index={index}
+                            scan={scan}
+                        />
+                    ))}
+            </div>
             <Button
                 type="submit"
                 size="lg"

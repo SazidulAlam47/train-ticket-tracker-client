@@ -15,8 +15,8 @@ const App = () => {
     }, []);
 
     return (
-        <main className="flex justify-center items-center min-h-screen p-5">
-            <Container>
+        <main className="flex justify-center items-center min-h-[100dvh]">
+            <Container className="py-3">
                 <img
                     src={bgImage}
                     alt="Train"

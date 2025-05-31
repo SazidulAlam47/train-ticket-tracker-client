@@ -46,9 +46,11 @@ const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
                 >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? (
-                        <span>{moment(date).format('DD MMM, YYYY')}</span>
+                        <span className="font-normal">
+                            {moment(date).format('DD MMM, YYYY')}
+                        </span>
                     ) : (
-                        <span>Pick a date</span>
+                        <span className="font-light">Pick a date</span>
                     )}
                 </Button>
             </PopoverTrigger>

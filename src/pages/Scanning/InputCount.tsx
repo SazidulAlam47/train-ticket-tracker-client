@@ -30,20 +30,22 @@ const InputCount = () => {
                 className="flex flex-col gap-4"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <Label htmlFor="inputCount">Enter number of scans</Label>
-                <Input
-                    className="h-10 text-base"
-                    type="number"
-                    id="inputCount"
-                    placeholder="Enter number of scans"
-                    {...register('inputCount', {
-                        required: 'Please enter a number',
-                        min: {
-                            value: 1,
-                            message: 'Please enter a positive number',
-                        },
-                    })}
-                />
+                <div className="space-y-2">
+                    <Label htmlFor="inputCount">Number of scans</Label>
+                    <Input
+                        className="h-10 text-base"
+                        type="number"
+                        id="inputCount"
+                        placeholder="Enter number of scans"
+                        {...register('inputCount', {
+                            required: 'Please enter a number',
+                            min: {
+                                value: 1,
+                                message: 'Please enter a positive number',
+                            },
+                        })}
+                    />
+                </div>
                 <ErrorMessage message={errors.inputCount?.message} />
                 <Button
                     type="submit"

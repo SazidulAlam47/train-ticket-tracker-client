@@ -18,6 +18,10 @@
         box-shadow 0.2s ease-in-out;
 }
 
+.react-autosuggest__input::placeholder {
+    font-weight: 300;
+}
+
 .react-autosuggest__input--focused {
     outline: none;
     border-color: #007bff;
