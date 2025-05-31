@@ -1,10 +1,8 @@
-# Train Ticket Tracker Client
+# Train Ticket Tracker Frontend
 
 Train Ticket Tracker is a tool designed to track ticket availability on the Bangladesh Railway eTicket platform. It checks for ticket availability every 15 seconds and provides notifications when tickets become available.
 
 Many of us prefer train travel for long-distance journeys. But the problem arises when all tickets are sold out online. However, if someone cancels their ticket, it becomes available again. The only way to get that ticket is to keep refreshing the page manually, as the eTicket platform does not update ticket availability in real time. This process is frustrating and time-consuming. Train Ticket Tracker automates this process, making it easier to secure newly available tickets!
-
----
 
 ## Features
 
@@ -28,8 +26,6 @@ Many of us prefer train travel for long-distance journeys. But the problem arise
 - Icons: react-icons
 - Type Checking: TypeScript
 - Linting/Formatting: ESLint, Prettier
-
----
 
 ## Getting Started
 
@@ -67,8 +63,6 @@ or
 ```bash
 yarn build
 ```
-
----
 
 ### Running the App
 
