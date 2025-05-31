@@ -28,85 +28,93 @@ const TicketTable = () => {
     const notificationAudio = useRef(new Audio(audio));
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            scans.forEach(async (scan) => {
-                const formatDate = formatDateToStr(scan.date!);
-                try {
-                    const res = await axios.post(
-                        `${import.meta.env.VITE_API_URL}/api/v1/tickets`,
-                        {
-                            from: scan.from,
-                            to: scan.to,
-                            date: formatDate,
-                        },
-                    );
-
+        const fetchAllTickets = async () => {
+            await Promise.all(
+                scans.map(async (scan) => {
+                    const formatDate = formatDateToStr(scan.date!);
                     const key = `${scan.from}-${scan.to}-${formatDate}`;
-                    const newTickets = res.data.data as ITicket[];
-                    const oldTickets = ticketsObj[key] || [];
 
-                    newTickets.forEach((newTicket) => {
-                        const matchOldTicket = oldTickets.find(
-                            (oldTicket) =>
-                                oldTicket.trainName === newTicket.trainName &&
-                                oldTicket.class === newTicket.class,
-                        );
-
-                        if (
-                            matchOldTicket &&
-                            newTicket.seats > matchOldTicket.seats
-                        ) {
-                            if (!isLoading) {
-                                notificationAudio.current.play();
-                                newTicketToast(newTicket);
-                            }
-                        }
-                        if (!matchOldTicket) {
-                            oldTickets.push(newTicket);
-                            if (!isLoading) {
-                                notificationAudio.current.play();
-                                newTicketToast(newTicket);
-                            }
-                        }
-                    });
-
-                    oldTickets.forEach((oldTicket) => {
-                        const newTicketMatch = newTickets.find(
-                            (newTicket) =>
-                                oldTicket.trainName === newTicket.trainName &&
-                                oldTicket.class === newTicket.class,
-                        );
-
-                        if (newTicketMatch) {
-                            oldTicket.seats = newTicketMatch.seats;
-                            oldTicket.now = newTicketMatch.now;
-                        } else {
-                            oldTicket.seats = 0;
-                        }
-                    });
-
-                    setTicketsObj((prev) => ({
-                        ...prev,
-                        [key]: oldTickets,
-                    }));
-                } catch (error) {
-                    if (isAxiosError(error) && error.response) {
-                        toast.error(error.response.data.message, {
-                            style: {
-                                maxWidth: 'none',
-                                width: 'auto',
+                    try {
+                        const res = await axios.post(
+                            `${import.meta.env.VITE_API_URL}/api/v1/tickets`,
+                            {
+                                from: scan.from,
+                                to: scan.to,
+                                date: formatDate,
                             },
-                        });
-                    } else {
-                        toast.error('An unexpected error occurred.');
-                    }
+                        );
 
-                    setInputCount(0);
-                    setShowTable(false);
-                }
-            });
+                        const newTickets = res.data.data as ITicket[];
+                        const oldTickets = ticketsObj[key] || [];
+
+                        newTickets.forEach((newTicket) => {
+                            const matchOldTicket = oldTickets.find(
+                                (oldTicket) =>
+                                    oldTicket.trainName ===
+                                        newTicket.trainName &&
+                                    oldTicket.class === newTicket.class,
+                            );
+
+                            if (
+                                matchOldTicket &&
+                                newTicket.seats > matchOldTicket.seats
+                            ) {
+                                if (!isLoading) {
+                                    notificationAudio.current.play();
+                                    newTicketToast(newTicket);
+                                }
+                            }
+                            if (!matchOldTicket) {
+                                oldTickets.push(newTicket);
+                                if (!isLoading) {
+                                    notificationAudio.current.play();
+                                    newTicketToast(newTicket);
+                                }
+                            }
+                        });
+
+                        oldTickets.forEach((oldTicket) => {
+                            const newTicketMatch = newTickets.find(
+                                (newTicket) =>
+                                    oldTicket.trainName ===
+                                        newTicket.trainName &&
+                                    oldTicket.class === newTicket.class,
+                            );
+
+                            if (newTicketMatch) {
+                                oldTicket.seats = newTicketMatch.seats;
+                                oldTicket.now = newTicketMatch.now;
+                            } else {
+                                oldTicket.seats = 0;
+                            }
+                        });
+
+                        setTicketsObj((prev) => ({
+                            ...prev,
+                            [key]: oldTickets,
+                        }));
+                    } catch (error) {
+                        if (isAxiosError(error) && error.response) {
+                            toast.error(error.response.data.message, {
+                                style: {
+                                    maxWidth: 'none',
+                                    width: 'auto',
+                                },
+                            });
+                        } else {
+                            toast.error('An unexpected error occurred.');
+                        }
+
+                        setInputCount(0);
+                        setShowTable(false);
+                    }
+                }),
+            );
+
             setIsLoading(false);
-        }, 15000);
+        };
+
+        const timer = setInterval(fetchAllTickets, 15000);
 
         return () => clearInterval(timer);
     }, [scans, ticketsObj, isLoading, setInputCount, setShowTable]);

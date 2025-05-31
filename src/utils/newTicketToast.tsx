@@ -23,7 +23,7 @@ const newTicketToast = (ticket: ITicket) => {
         ),
         {
             position: 'bottom-right',
-            duration: 10000,
+            duration: 8000,
             style: {
                 width: 'auto',
                 maxWidth: 'none',
@@ -31,6 +31,8 @@ const newTicketToast = (ticket: ITicket) => {
                 borderRadius: '8px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                 fontSize: '14px',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ddd',
             },
             icon: <FaTrainSubway color="#164973" size={20} />,
         },
