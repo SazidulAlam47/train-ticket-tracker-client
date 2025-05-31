@@ -170,7 +170,7 @@ const TicketTable = () => {
                                 <TableHead>Class</TableHead>
                                 <TableHead>Seats</TableHead>
                                 <TableHead>Fare</TableHead>
-                                <TableHead>Available at</TableHead>
+                                <TableHead>Was available at</TableHead>
                                 <TableHead className="w-[1%]">
                                     Purchase
                                 </TableHead>
