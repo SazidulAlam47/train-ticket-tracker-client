@@ -14,7 +14,7 @@ import { BsFillTrashFill, BsInfoCircleFill } from 'react-icons/bs';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import type { ITicket } from '@/types/ticket.type';
 import { ImSpinner9 } from 'react-icons/im';
 import audio from '@/assets/audio/notification.mp3';
@@ -90,16 +90,28 @@ const TicketTable = () => {
                         [key]: oldTickets,
                     }));
                 } catch (error) {
-                    console.error('Failed to fetch tickets:', error);
+                    if (isAxiosError(error) && error.response) {
+                        toast.error(error.response.data.message, {
+                            style: {
+                                maxWidth: 'none',
+                                width: 'auto',
+                            },
+                        });
+                    } else {
+                        toast.error('An unexpected error occurred.');
+                    }
+
+                    setInputCount(0);
+                    setShowTable(false);
                 }
             });
             setIsLoading(false);
         }, 15000);
 
         return () => clearInterval(timer);
-    }, [scans, ticketsObj, isLoading]);
+    }, [scans, ticketsObj, isLoading, setInputCount, setShowTable]);
 
-    const trainTickets: ITicket[] = Object.values(ticketsObj).flat();
+    const ticketsArray: ITicket[] = Object.values(ticketsObj).flat();
 
     const handleStop = () => {
         setInputCount(0);
@@ -113,7 +125,7 @@ const TicketTable = () => {
     const handelClear = () => {
         const filteredTicketsObj: Record<string, ITicket[]> = {};
 
-        const findUnavailable = trainTickets.find((t) => t.seats === 0);
+        const findUnavailable = ticketsArray.find((t) => t.seats === 0);
         if (!findUnavailable) {
             toast('No unavailable tickets found', {
                 icon: <BsInfoCircleFill size={18} className="text-[#3498db]" />,
@@ -164,7 +176,7 @@ const TicketTable = () => {
                     <ImSpinner9 className="animate-spin" /> Scanning for
                     tickets, please wait...
                 </p>
-            ) : trainTickets.length ? (
+            ) : ticketsArray.length ? (
                 <div className="bg-white px-4 py-3 rounded-2xl">
                     <Table>
                         <TableHeader>
@@ -183,7 +195,7 @@ const TicketTable = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {trainTickets.map((ticket, index) => (
+                            {ticketsArray.map((ticket, index) => (
                                 <TableRow key={index} className="h-11">
                                     <TableCell>{ticket.from}</TableCell>
                                     <TableCell>{ticket.to}</TableCell>
