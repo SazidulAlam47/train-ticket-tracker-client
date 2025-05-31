@@ -170,8 +170,10 @@ const TicketTable = () => {
                                 <TableHead>Class</TableHead>
                                 <TableHead>Seats</TableHead>
                                 <TableHead>Fare</TableHead>
-                                <TableHead>Was Available at</TableHead>
-                                <TableHead>Purchase</TableHead>
+                                <TableHead>Available at</TableHead>
+                                <TableHead className="w-[1%]">
+                                    Purchase
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -189,7 +191,7 @@ const TicketTable = () => {
                                     <TableCell>
                                         {moment(ticket.now).format('h:mm:ss a')}
                                     </TableCell>
-                                    <TableCell className="w-fit">
+                                    <TableCell className="w-[1%]">
                                         {ticket.seats ? (
                                             <a
                                                 href={ticket.link}
