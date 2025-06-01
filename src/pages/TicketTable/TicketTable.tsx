@@ -96,6 +96,7 @@ const TicketTable = () => {
                     } catch (error) {
                         if (isAxiosError(error) && error.response) {
                             toast.error(error.response.data.message, {
+                                duration: 7000,
                                 style: {
                                     maxWidth: 'none',
                                     width: 'auto',
