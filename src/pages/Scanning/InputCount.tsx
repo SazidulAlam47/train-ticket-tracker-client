@@ -33,7 +33,7 @@ const InputCount = () => {
                 <div className="space-y-2">
                     <Label htmlFor="inputCount">Number of scans</Label>
                     <Input
-                        className="h-10 text-base"
+                        className="h-9 text-base"
                         type="number"
                         id="inputCount"
                         placeholder="Enter number of scans"

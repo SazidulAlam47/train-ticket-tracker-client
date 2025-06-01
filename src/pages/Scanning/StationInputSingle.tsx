@@ -1,5 +1,5 @@
-import AutoSuggestionInput from '@/components/shared/AutoSuggestionInput/AutoSuggestionInput';
-import MyDatePicker from '@/components/shared/MyDatePicker/MyDatePicker';
+import MyAutosuggestInput from '@/components/shared/MyAutosuggestInput';
+import MyDatePicker from '@/components/shared/MyDatePicker';
 import { Label } from '@/components/ui/label';
 import useTicketContext from '@/hooks/useTicketContext';
 import type { TScan } from '@/types/scan.type';
@@ -29,13 +29,13 @@ const StationInputSingle = ({ index, scan }: TStationInputSingleProps) => {
             </h3>
 
             <Label className="block text-gray-600 mb-2">From:</Label>
-            <AutoSuggestionInput
+            <MyAutosuggestInput
                 value={scan.from}
                 setValue={(val) => updateField('from', val)}
                 placeholder="Enter your departure station"
             />
             <Label className="block text-gray-600 mt-4 mb-2">To:</Label>
-            <AutoSuggestionInput
+            <MyAutosuggestInput
                 value={scan.to}
                 setValue={(val) => updateField('to', val)}
                 placeholder="Enter your destination station"

@@ -8,7 +8,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import './MyDatePicker.css';
 import moment from 'moment-timezone';
 import type { Dispatch, SetStateAction } from 'react';
 
@@ -40,17 +39,19 @@ const MyDatePicker = ({ date, setDate }: TMyDatePicker) => {
                 <Button
                     variant={'outline'}
                     className={cn(
-                        'w-full justify-start text-left font-normal date-input',
+                        'h-9 w-full justify-start border border-gray-300 bg-white hover:bg-white px-3 py-2 text-sm text-left shadow-sm focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer',
                         !date && 'text-muted-foreground hover:text-[#777]',
                     )}
                 >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-1.5 size-4 " />
                     {date ? (
-                        <span className="font-normal">
+                        <span className="font-normal -mb-[2px]">
                             {moment(date).format('DD MMM, YYYY')}
                         </span>
                     ) : (
-                        <span className="font-light">Pick a date</span>
+                        <span className="font-light -mb-[2px]">
+                            Pick a date
+                        </span>
                     )}
                 </Button>
             </PopoverTrigger>
