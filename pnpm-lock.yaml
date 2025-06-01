@@ -75,9 +75,6 @@ importers:
       '@types/react':
         specifier: ^19.1.2
         version: 19.1.6
-      '@types/react-autosuggest':
-        specifier: ^10.1.11
-        version: 10.1.11
       '@types/react-dom':
         specifier: ^19.1.2
         version: 19.1.5(@types/react@19.1.6)
@@ -912,9 +909,6 @@ packages:
 
   '@types/node@22.15.28':
     resolution: {integrity: sha512-I0okKVDmyKR281I0UIFV7EWAWRnR0gkuSKob5wVcByyyhr7Px/slhkQapcYX4u00ekzNWaS1gznKZnuzxwo4pw==}
-
-  '@types/react-autosuggest@10.1.11':
-    resolution: {integrity: sha512-lneJrX/5TZJzKHPJ6UuUjsh9OfeyQHKYEVHyBh5Y7LeRbCZxyIsjBmpxdPy1iH++Ger0qcyW+phPpYH+g3naLA==}
 
   '@types/react-dom@19.1.5':
     resolution: {integrity: sha512-CMCjrWucUBZvohgZxkjd6S9h0nZxXjzus6yDfUb+xLxYM7VvjKNH1tQrE9GWLql1XoOP4/Ds3bwFqShHUYraGg==}
@@ -2576,10 +2570,6 @@ snapshots:
   '@types/node@22.15.28':
     dependencies:
       undici-types: 6.21.0
-
-  '@types/react-autosuggest@10.1.11':
-    dependencies:
-      '@types/react': 19.1.6
 
   '@types/react-dom@19.1.5(@types/react@19.1.6)':
     dependencies:
