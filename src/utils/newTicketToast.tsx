@@ -4,21 +4,27 @@ import { FaTrainSubway } from 'react-icons/fa6';
 
 const newTicketToast = (ticket: ITicket) => {
     toast(
-        () => (
-            <div>
-                <div>
+        (t) => (
+            <div className="relative">
+                <button
+                    onClick={() => toast.dismiss(t.id)}
+                    className="absolute -top-[12px] -right-[18px] text-gray-500 hover:text-gray-700 text-sm cursor-pointer"
+                >
+                    ✖
+                </button>
+                <p>
                     <strong>New Ticket:</strong> {ticket.from} → {ticket.to}
-                </div>
-                <div>
+                </p>
+                <p>
                     <strong>Date:</strong>{' '}
                     {ticket.departureDateTime.split(',')[0]}
-                </div>
-                <div>
+                </p>
+                <p>
                     <strong>Train Name:</strong> {ticket.trainName}
-                </div>
-                <div>
+                </p>
+                <p>
                     <strong>Seats:</strong> {ticket.seats}
-                </div>
+                </p>
             </div>
         ),
         {
