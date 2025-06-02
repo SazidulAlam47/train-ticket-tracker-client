@@ -46,7 +46,7 @@ const MyAutosuggestInput = ({
     return (
         <div className="relative w-full">
             <Input
-                className="h-9 bg-white focus-visible:ring-0 focus-visible:ring-offset-0 border-gray-300 focus:border-blue-400"
+                className="h-9 font-normal placeholder:font-light bg-white focus-visible:ring-0 focus-visible:ring-offset-0 border-gray-300 focus:border-blue-400"
                 placeholder={placeholder}
                 {...getInputProps()}
             />
