@@ -14,18 +14,27 @@ import { BsFillTrashFill, BsInfoCircleFill } from 'react-icons/bs';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
 import { useEffect, useRef, useState } from 'react';
-import axios, { isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import type { ITicket } from '@/types/ticket.type';
 import { ImSpinner9 } from 'react-icons/im';
 import audio from '@/assets/audio/notification.mp3';
 import toast from 'react-hot-toast';
 import newTicketToast from '@/utils/newTicketToast';
+import { useNavigate } from 'react-router';
+import axiosInstance from '@/utils/axiosInstance';
 
 const TicketTable = () => {
-    const { scans, setInputCount, setShowTable } = useTicketContext();
+    const { scans } = useTicketContext();
     const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket[]>>({});
     const [isLoading, setIsLoading] = useState(true);
     const notificationAudio = useRef(new Audio(audio));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!scans.length) {
+            navigate('/');
+        }
+    }, [scans, navigate]);
 
     useEffect(() => {
         const fetchAllTickets = async () => {
@@ -35,14 +44,11 @@ const TicketTable = () => {
                     const key = `${scan.from}-${scan.to}-${formatDate}`;
 
                     try {
-                        const res = await axios.post(
-                            `${import.meta.env.VITE_API_URL}/api/v1/tickets`,
-                            {
-                                from: scan.from,
-                                to: scan.to,
-                                date: formatDate,
-                            },
-                        );
+                        const res = await axiosInstance.post('/tickets', {
+                            from: scan.from,
+                            to: scan.to,
+                            date: formatDate,
+                        });
 
                         const newTickets = res.data.data as ITicket[];
                         const oldTickets = ticketsObj[key] || [];
@@ -106,8 +112,7 @@ const TicketTable = () => {
                             toast.error('An unexpected error occurred.');
                         }
 
-                        setInputCount(0);
-                        setShowTable(false);
+                        navigate('/');
                     }
                 }),
             );
@@ -115,16 +120,15 @@ const TicketTable = () => {
             setIsLoading(false);
         };
 
-        const timer = setInterval(fetchAllTickets, 15000);
+        const timer = setInterval(fetchAllTickets, 45000);
 
         return () => clearInterval(timer);
-    }, [scans, ticketsObj, isLoading, setInputCount, setShowTable]);
+    }, [scans, ticketsObj, isLoading, navigate]);
 
     const ticketsArray: ITicket[] = Object.values(ticketsObj).flat();
 
     const handleStop = () => {
-        setInputCount(0);
-        setShowTable(false);
+        navigate('/');
     };
 
     const handleTestAudio = () => {

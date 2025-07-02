@@ -5,12 +5,16 @@ import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import toast from 'react-hot-toast';
 import useTicketContext from '@/hooks/useTicketContext';
+import { useNavigate } from 'react-router';
 
 const StationInput = () => {
-    const { scans, setScans, inputCount, setInputCount, setShowTable } =
-        useTicketContext();
+    const { scans, setScans, inputCount } = useTicketContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (!inputCount) {
+            navigate('/');
+        }
         setScans(
             Array.from({ length: inputCount }, () => ({
                 from: '',
@@ -18,7 +22,7 @@ const StationInput = () => {
                 date: undefined,
             })),
         );
-    }, [inputCount, setScans]);
+    }, [inputCount, setScans, navigate]);
 
     const handleScan = () => {
         let error = false;
@@ -42,8 +46,12 @@ const StationInput = () => {
         }
 
         if (!error) {
-            setShowTable(true);
+            navigate('/ticket-table');
         }
+    };
+
+    const handleGoBack = () => {
+        navigate('/');
     };
 
     return (
@@ -53,20 +61,21 @@ const StationInput = () => {
                 variant="secondary"
                 className="mb-4 cursor-pointer"
                 size="sm"
-                onClick={() => setInputCount(0)}
+                onClick={handleGoBack}
             >
                 <IoMdArrowRoundBack />
                 Go Back
             </Button>
             <div className="space-y-5 mb-5">
-                {scans.length &&
-                    scans.map((scan, index) => (
-                        <StationInputSingle
-                            key={index}
-                            index={index}
-                            scan={scan}
-                        />
-                    ))}
+                {scans.length
+                    ? scans.map((scan, index) => (
+                          <StationInputSingle
+                              key={index}
+                              index={index}
+                              scan={scan}
+                          />
+                      ))
+                    : null}
             </div>
             <Button
                 type="submit"

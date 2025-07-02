@@ -6,8 +6,6 @@ export type TicketContextType = {
     setScans: Dispatch<SetStateAction<TScan[]>>;
     inputCount: number;
     setInputCount: Dispatch<SetStateAction<number>>;
-    showTable: boolean;
-    setShowTable: Dispatch<SetStateAction<boolean>>;
 };
 
 export const TicketContext = createContext<TicketContextType>({
@@ -15,6 +13,4 @@ export const TicketContext = createContext<TicketContextType>({
     setScans: () => {},
     inputCount: 0,
     setInputCount: () => {},
-    showTable: false,
-    setShowTable: () => {},
 });
