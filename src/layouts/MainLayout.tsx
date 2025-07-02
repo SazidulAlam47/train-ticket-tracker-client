@@ -1,13 +1,13 @@
 import bgImage from '@/assets/page-bg.svg';
 import Container from '@/components/shared/Container';
-import axios from 'axios';
+import axiosInstance from '@/utils/axiosInstance';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router';
 
 const MainLayout = () => {
     // send a request to active the backend
     useEffect(() => {
-        axios.get(import.meta.env.VITE_API_URL);
+        axiosInstance.get('/test');
     }, []);
 
     return (
