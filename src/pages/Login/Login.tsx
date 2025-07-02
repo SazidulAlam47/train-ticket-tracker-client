@@ -38,7 +38,7 @@ const Login = () => {
                     Train Ticket Tracker
                 </h1>
                 <p className="text-center text-sm text-gray-500">
-                    Login with our Rail Sheba account
+                    Login with your Rail Sheba Account
                 </p>
             </div>
             <TFrom
