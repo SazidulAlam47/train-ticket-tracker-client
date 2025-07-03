@@ -13,6 +13,7 @@ import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
+import { BeatLoader } from 'react-spinners';
 
 const InputCount = () => {
     const { setInputCount } = useTicketContext();
@@ -49,11 +50,26 @@ const InputCount = () => {
         toast.success('Logout Successful');
     };
 
+    if (!name) {
+        return (
+            <div className="bg-white p-4 rounded-2xl max-w-lg mx-auto text-center">
+                <Heading />
+                <BeatLoader
+                    color="#1ca559"
+                    size={40}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                    className="my-5"
+                />
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-4">
             <div className="max-w-xl mx-auto">
                 <div className="bg-white p-3 rounded-2xl ml-auto w-fit flex items-center gap-3">
-                    <h3>{name || 'Loading...'}</h3>
+                    <h3>{name}</h3>
                     <Button
                         size="default"
                         className="text-base cursor-pointer bg-[#df3c4f] hover:bg-red-700"
