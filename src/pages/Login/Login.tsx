@@ -71,11 +71,21 @@ const Login = () => {
                 <a
                     href="https://eticket.railway.gov.bd/register"
                     target="_blank"
-                    className="font-bold text-[#167457] hover:text-[#1c6650]"
+                    className="font-bold text-[#178b4c] hover:text-[#107a40]"
                 >
                     Register
                 </a>
-                .
+            </p>
+            <p className="text-sm text-center mt-2 text-[#2c3e50]">
+                Use the{' '}
+                <a
+                    href="https://github.com/SazidulAlam47/train-ticket-tracker-sync-extension"
+                    target="_blank"
+                    className="font-bold text-[#178b4c] hover:text-[#107a40]"
+                >
+                    Train Ticket Tracker Sync Extension
+                </a>{' '}
+                to sync your Rail Sheba account.
             </p>
         </div>
     );
