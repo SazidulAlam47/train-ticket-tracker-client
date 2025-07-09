@@ -1,6 +1,5 @@
 import MainLayout from '@/layouts/MainLayout';
 import InputCount from '@/pages/InputCount/InputCount';
-import Login from '@/pages/Login/Login';
 import NotFound from '@/pages/NotFound/NotFound';
 import StationInput from '@/pages/Scanning/StationInput';
 import TicketTable from '@/pages/TicketTable/TicketTable';
@@ -16,10 +15,7 @@ const router = createBrowserRouter([
                 index: true,
                 element: <InputCount />,
             },
-            {
-                path: 'login',
-                element: <Login />,
-            },
+
             {
                 path: 'input-stations',
                 element: <StationInput />,

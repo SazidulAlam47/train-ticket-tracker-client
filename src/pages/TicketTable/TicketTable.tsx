@@ -21,7 +21,7 @@ import audio from '@/assets/audio/notification.mp3';
 import toast from 'react-hot-toast';
 import newTicketToast from '@/utils/newTicketToast';
 import { useNavigate } from 'react-router';
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance from '@/helpers/axiosInstance';
 
 const TicketTable = () => {
     const { scans } = useTicketContext();
