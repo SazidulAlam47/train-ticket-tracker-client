@@ -120,7 +120,7 @@ const TicketTable = () => {
             setIsLoading(false);
         };
 
-        const timer = setInterval(fetchAllTickets, 45000);
+        const timer = setInterval(fetchAllTickets, 30000);
 
         return () => clearInterval(timer);
     }, [scans, ticketsObj, isLoading, navigate]);
