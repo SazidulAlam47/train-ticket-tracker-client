@@ -1,6 +1,7 @@
 import type { ITicket } from '@/types/ticket.type';
 import toast from 'react-hot-toast';
 import { FaTrainSubway } from 'react-icons/fa6';
+import addNotification from 'react-push-notification';
 
 const newTicketToast = (ticket: ITicket) => {
     toast(
@@ -43,6 +44,19 @@ const newTicketToast = (ticket: ITicket) => {
             icon: <FaTrainSubway color="#164973" size={20} />,
         },
     );
+
+    addNotification({
+        title: 'New Train Ticket Found!',
+        message: `${ticket.from} → ${ticket.to}\n${ticket.trainName}\nDate: ${ticket.departureDateTime.split(',')[0]}\n${ticket.seats} seats available`,
+        theme: 'darkblue',
+        duration: 10000,
+        native: true,
+        icon: '/favicon.ico',
+        vibrate: [200, 100, 200],
+        onClick: () => {
+            window.focus();
+        },
+    });
 };
 
 export default newTicketToast;

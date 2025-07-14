@@ -11,6 +11,7 @@ import useTicketContext from '@/hooks/useTicketContext';
 import { HiMiniSpeakerWave } from 'react-icons/hi2';
 import { IoStopCircle } from 'react-icons/io5';
 import { BsFillTrashFill, BsInfoCircleFill } from 'react-icons/bs';
+import { MdNotifications, MdNotificationsActive } from 'react-icons/md';
 import moment from 'moment-timezone';
 import formatDateToStr from '@/utils/formatDateToStr';
 import { useEffect, useRef, useState } from 'react';
@@ -22,11 +23,15 @@ import toast from 'react-hot-toast';
 import newTicketToast from '@/utils/newTicketToast';
 import { useNavigate } from 'react-router';
 import axiosInstance from '@/helpers/axiosInstance';
+import addNotification from 'react-push-notification';
 
 const TicketTable = () => {
     const { scans } = useTicketContext();
     const [ticketsObj, setTicketsObj] = useState<Record<string, ITicket[]>>({});
     const [isLoading, setIsLoading] = useState(true);
+    const [notificationsEnabled, setNotificationsEnabled] = useState(
+        Notification.permission === 'granted',
+    );
     const notificationAudio = useRef(new Audio(audio));
     const navigate = useNavigate();
 
@@ -131,8 +136,54 @@ const TicketTable = () => {
         navigate('/');
     };
 
-    const handleTestAudio = () => {
+    const handleTestNotificationAudio = () => {
         notificationAudio.current.play();
+        if (notificationsEnabled) {
+            addNotification({
+                title: 'Test Notification',
+                message:
+                    'This is a test notification from Train Ticket Tracker',
+                theme: 'darkblue',
+                duration: 8000,
+                native: true,
+                icon: '/favicon.ico',
+                vibrate: [200, 100, 200],
+                onClick: () => {
+                    window.focus();
+                },
+            });
+        }
+    };
+
+    const handleEnableNotification = async () => {
+        if (!('Notification' in window)) {
+            toast.error('This browser does not support notifications');
+            return;
+        }
+
+        if (Notification.permission === 'denied') {
+            toast.error(
+                'Notifications are blocked. Please enable them in your browser settings.',
+            );
+            return;
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                setNotificationsEnabled(true);
+                toast.success('Push notifications enabled!');
+            } else if (permission === 'denied') {
+                toast.error(
+                    'Push notification permission denied. Please enable notifications in your browser settings.',
+                );
+            } else {
+                toast.error('Push notification permission not granted');
+            }
+        } catch (error) {
+            console.error('Notification permission error:', error);
+            toast.error('Failed to request notification permission');
+        }
     };
 
     const handelClear = () => {
@@ -171,11 +222,31 @@ const TicketTable = () => {
 
                 <Button
                     className=" bg-[#2f6493] hover:bg-[#314c63] cursor-pointer"
-                    onClick={handleTestAudio}
+                    onClick={handleTestNotificationAudio}
                 >
-                    <HiMiniSpeakerWave />
-                    Test Audio
+                    {notificationsEnabled ? (
+                        <>
+                            <MdNotificationsActive />
+                            Test Notification and Audio
+                        </>
+                    ) : (
+                        <>
+                            <HiMiniSpeakerWave />
+                            Test Audio
+                        </>
+                    )}
                 </Button>
+
+                {!notificationsEnabled && (
+                    <Button
+                        className="bg-[#892bb1] hover:bg-[#722294] cursor-pointer"
+                        onClick={handleEnableNotification}
+                    >
+                        <MdNotifications />
+                        Enable Notification
+                    </Button>
+                )}
+
                 <Button
                     className="bg-[#22864f] hover:bg-green-800 cursor-pointer"
                     onClick={handelClear}
