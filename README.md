@@ -44,12 +44,21 @@ Many of us prefer train travel for long-distance journeys. But the problem arise
     ```
 
 2. **Install dependencies:**
+
     ```bash
     npm install
     ```
-    or
+
+3. **Set up environment variables:**
+
     ```bash
-    yarn install
+    cp .env.example .env
+    ```
+
+    Then update the `.env` file with your configuration:
+
+    ```env
+    VITE_API_URL=http://localhost:5000/api/v1
     ```
 
 ### Building for Production
@@ -58,24 +67,12 @@ Many of us prefer train travel for long-distance journeys. But the problem arise
 npm run build
 ```
 
-or
-
-```bash
-yarn build
-```
-
 ### Running the App
 
 Start the development server:
 
 ```bash
 npm start
-```
-
-or
-
-```bash
-yarn start
 ```
 
 Visit [http://localhost:4173](http://localhost:4173) in your browser.
