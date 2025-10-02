@@ -54,7 +54,7 @@ const newTicketToast = (ticket: ITicket) => {
         icon: '/favicon.ico',
         vibrate: [200, 100, 200],
         onClick: () => {
-            window.focus();
+            window.open(ticket.link, '_blank');
         },
     });
 };
