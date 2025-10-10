@@ -1,7 +1,21 @@
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router';
+import { getFromLocalStorage } from '@/utils/localStorage';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = getFromLocalStorage('token');
+        const ssdk = getFromLocalStorage('ssdk');
+        const uudid = getFromLocalStorage('uudid');
+
+        if (token && ssdk && uudid) {
+            navigate('/input-count');
+        }
+    }, [navigate]);
+
     return (
         <div className="bg-white p-4 rounded-2xl max-w-xl mx-auto">
             <div className="mb-6 space-y-0.5">

@@ -2,14 +2,25 @@ import { Button } from '@/components/ui/button';
 import { loginSchema } from '@/schemas/schemas';
 import TFrom from '@/shared/Form/TForm';
 import TInput from '@/shared/Form/TInput';
-import { setToLocalStorage } from '@/utils/localStorage';
+import { getFromLocalStorage, setToLocalStorage } from '@/utils/localStorage';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 
 const LoginAdvanced = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = getFromLocalStorage('token');
+        const ssdk = getFromLocalStorage('ssdk');
+        const uudid = getFromLocalStorage('uudid');
+
+        if (token && ssdk && uudid) {
+            navigate('/input-count');
+        }
+    }, [navigate]);
 
     const handleLogin = async (data: FieldValues) => {
         setToLocalStorage('token', data.token);
