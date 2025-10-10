@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const LoginAdvanced = () => {
     const navigate = useNavigate();
@@ -58,16 +58,15 @@ const LoginAdvanced = () => {
                 </Button>
             </TFrom>
 
-            <p className="text-sm text-center mt-2 text-[#2c3e50]">
-                Use the{' '}
-                <a
-                    href="https://github.com/SazidulAlam47/train-ticket-tracker-sync-extension"
-                    target="_blank"
-                    className="font-bold text-[#178b4c] hover:text-[#107a40]"
+            <p className="text-sm text-center text-gray-600 pt-3">
+                Prefer automatic sync?{' '}
+                <Link
+                    to="/login"
+                    className="font-semibold text-[#178b4c] hover:text-[#107a40] hover:underline"
                 >
-                    Train Ticket Tracker Sync Extension
-                </a>{' '}
-                to sync your Rail Sheba account.
+                    Use Chrome Extension
+                </Link>{' '}
+                for one-click login.
             </p>
         </div>
     );
