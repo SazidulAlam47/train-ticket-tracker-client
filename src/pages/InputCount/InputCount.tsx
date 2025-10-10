@@ -21,7 +21,7 @@ const InputCount = () => {
     useEffect(() => {
         axiosInstance
             .get('/users/profile')
-            .then((res) => setName(res.data.data.data.display_name))
+            .then((res) => setName(res.data.data.name))
             .catch((error) => {
                 console.error(error.message);
                 removeFromLocalStorage('token');
