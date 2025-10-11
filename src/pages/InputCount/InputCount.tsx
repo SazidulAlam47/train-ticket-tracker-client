@@ -55,9 +55,9 @@ const InputCount = () => {
 
     if (!name) {
         return (
-            <div className="bg-white p-4 rounded-2xl max-w-lg mx-auto text-center">
+            <div className="bg-white p-4 rounded-2xl max-w-lg mx-auto text-center py-7">
                 <Heading />
-                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                <div className="flex flex-col items-center justify-center space-y-4 pt-7">
                     <div className="relative">
                         <div className="w-12 h-12 border-4 border-gray-200 border-t-[#1ca559] rounded-full animate-spin"></div>
                     </div>
