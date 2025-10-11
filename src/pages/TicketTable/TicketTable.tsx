@@ -21,7 +21,7 @@ import { ImSpinner9 } from 'react-icons/im';
 import audio from '@/assets/audio/notification.mp3';
 import toast from 'react-hot-toast';
 import newTicketToast from '@/utils/newTicketToast';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axiosInstance from '@/helpers/axiosInstance';
 import addNotification from 'react-push-notification';
 
@@ -295,8 +295,8 @@ const TicketTable = () => {
                                     </TableCell>
                                     <TableCell className="w-[1%]">
                                         {ticket.seats ? (
-                                            <a
-                                                href={ticket.link}
+                                            <Link
+                                                to={ticket.link}
                                                 target="_blank"
                                             >
                                                 <Button
@@ -305,7 +305,7 @@ const TicketTable = () => {
                                                 >
                                                     Purchase
                                                 </Button>
-                                            </a>
+                                            </Link>
                                         ) : (
                                             ''
                                         )}

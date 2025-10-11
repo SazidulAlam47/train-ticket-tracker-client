@@ -1,3 +1,4 @@
+import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { getFromLocalStorage } from '@/utils/localStorage';
 import { useEffect } from 'react';
@@ -20,9 +21,7 @@ const Login = () => {
     return (
         <div className="bg-white p-4 rounded-2xl max-w-xl mx-auto">
             <div className="mb-6 space-y-0.5">
-                <h1 className="text-center text-2xl font-bold text-gray-800">
-                    Train Ticket Tracker
-                </h1>
+                <Heading />
             </div>
 
             <div className="space-y-4">
@@ -67,16 +66,16 @@ const Login = () => {
                         </div>
                     </div>
                 </div>
-                <a
-                    className="block"
+                <Link
+                    to="https://github.com/SazidulAlam47/train-ticket-tracker-sync-extension"
                     target="_blank"
-                    href="https://github.com/SazidulAlam47/train-ticket-tracker-sync-extension"
+                    className="block"
                 >
                     <Button className="w-full text-base cursor-pointer bg-[#1ca559] hover:bg-[#167457]">
                         <FaChrome className="text-lg" />
                         Install Chrome Extension
                     </Button>
-                </a>
+                </Link>
             </div>
 
             <p className="text-sm text-center text-gray-600 pt-3">

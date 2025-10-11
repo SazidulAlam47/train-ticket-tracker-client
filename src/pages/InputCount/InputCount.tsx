@@ -12,7 +12,7 @@ import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { FiLogOut, FiUser } from 'react-icons/fi';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const InputCount = () => {
     const [name, setName] = useState('');
@@ -125,13 +125,13 @@ const InputCount = () => {
                 </TFrom>
                 <p className="text-sm text-center mt-5 text-gray-600 leading-relaxed">
                     This project is open source. Check it out on{' '}
-                    <a
-                        href="https://github.com/SazidulAlam47/train-ticket-tracker-client"
+                    <Link
+                        to="https://github.com/SazidulAlam47/train-ticket-tracker-client"
                         target="_blank"
                         className="font-bold text-[#1ca559] hover:text-[#167457] hover:underline transition-colors duration-200"
                     >
                         GitHub
-                    </a>
+                    </Link>
                     .
                 </p>
             </div>
