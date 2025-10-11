@@ -3,6 +3,7 @@ import StationInputSingle from './StationInputSingle';
 import Heading from '@/components/shared/Heading';
 import { Button } from '@/components/ui/button';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { HiSparkles } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 import useTicketContext from '@/hooks/useTicketContext';
 import { useNavigate } from 'react-router';
@@ -55,7 +56,7 @@ const StationInput = () => {
     };
 
     return (
-        <div className="bg-white px-2.5 py-3 md:p-4 rounded-2xl max-w-3xl mx-auto">
+        <div className="bg-white px-2.5 py-3 md:p-4 rounded-2xl max-w-4xl mx-auto">
             <Heading />
             <Button
                 variant="secondary"
@@ -67,15 +68,22 @@ const StationInput = () => {
                 Go Back
             </Button>
             <div className="space-y-5 mb-5">
-                {scans.length
-                    ? scans.map((scan, index) => (
-                          <StationInputSingle
-                              key={index}
-                              index={index}
-                              scan={scan}
-                          />
-                      ))
-                    : null}
+                {scans.length ? (
+                    scans.map((scan, index) => (
+                        <StationInputSingle
+                            key={index}
+                            index={index}
+                            scan={scan}
+                        />
+                    ))
+                ) : (
+                    <div className="text-center py-8">
+                        <HiSparkles className="text-4xl text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-500">
+                            No scanning stations configured
+                        </p>
+                    </div>
+                )}
             </div>
             <Button
                 type="submit"

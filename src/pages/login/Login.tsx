@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { getFromLocalStorage } from '@/utils/localStorage';
 import { useEffect } from 'react';
+import { FaChrome } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router';
 
 const Login = () => {
@@ -72,6 +73,7 @@ const Login = () => {
                     href="https://github.com/SazidulAlam47/train-ticket-tracker-sync-extension"
                 >
                     <Button className="w-full text-base cursor-pointer bg-[#1ca559] hover:bg-[#167457]">
+                        <FaChrome className="text-lg" />
                         Install Chrome Extension
                     </Button>
                 </a>

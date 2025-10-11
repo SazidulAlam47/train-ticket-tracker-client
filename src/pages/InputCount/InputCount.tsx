@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { BsInfoCircleFill } from 'react-icons/bs';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
 
 const InputCount = () => {
@@ -60,12 +61,12 @@ const InputCount = () => {
                     <div className="relative">
                         <div className="w-12 h-12 border-4 border-gray-200 border-t-[#1ca559] rounded-full animate-spin"></div>
                     </div>
-                    <div className="space-y-1">
-                        <p className="text-sm font-medium text-gray-700">
-                            Loading your account...
-                        </p>
-                        <p className="text-xs text-gray-500">
-                            Please wait a moment
+                    <div className="text-center space-y-2">
+                        <h3 className="text-lg font-semibold text-gray-800">
+                            Loading your account
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                            Please wait while we verify your credentials
                         </p>
                     </div>
                 </div>
@@ -76,13 +77,25 @@ const InputCount = () => {
     return (
         <div className="space-y-4">
             <div className="max-w-xl mx-auto">
-                <div className="bg-white p-3 rounded-2xl ml-auto w-fit flex items-center gap-3">
-                    <h3>{name}</h3>
+                <div className="bg-white p-4 rounded-2xl flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-[#1ca559] to-[#167457] rounded-full flex items-center justify-center">
+                            <FiUser className="text-white text-lg" />
+                        </div>
+                        <div>
+                            <p className="text-sm text-gray-500 font-medium">
+                                Welcome back
+                            </p>
+                            <h3 className="text-lg font-semibold text-gray-800">
+                                {name}
+                            </h3>
+                        </div>
+                    </div>
                     <Button
-                        size="default"
-                        className="text-base cursor-pointer bg-[#df3c4f] hover:bg-red-700"
+                        className="text-sm font-medium px-4 py-2 bg-[#e72a40] hover:bg-[#c0162a] text-white flex items-center gap-2"
                         onClick={handleLogout}
                     >
+                        <FiLogOut className="text-sm" />
                         Logout
                     </Button>
                 </div>
@@ -94,12 +107,14 @@ const InputCount = () => {
                     resolver={zodResolver(inputCountSchema)}
                     className="flex flex-col gap-4"
                 >
-                    <TInput
-                        name="inputCount"
-                        label="Number of scans"
-                        type="number"
-                        placeholder="Enter number of scans"
-                    />
+                    <div className="space-y-2">
+                        <TInput
+                            name="inputCount"
+                            label="Number of scans"
+                            type="number"
+                            placeholder="Enter number of scans (e.g., 1)"
+                        />
+                    </div>
                     <Button
                         type="submit"
                         size="lg"
@@ -108,12 +123,12 @@ const InputCount = () => {
                         Generate
                     </Button>
                 </TFrom>
-                <p className="text-sm text-center mt-5 text-[#2c3e50]">
+                <p className="text-sm text-center mt-5 text-gray-600 leading-relaxed">
                     This project is open source. Check it out on{' '}
                     <a
                         href="https://github.com/SazidulAlam47/train-ticket-tracker-client"
                         target="_blank"
-                        className="font-bold text-[#178b4c] hover:text-[#107a40]"
+                        className="font-bold text-[#1ca559] hover:text-[#167457] hover:underline transition-colors duration-200"
                     >
                         GitHub
                     </a>
