@@ -6,7 +6,10 @@ export const inputCountSchema = z.object({
         .min(1, 'Please enter number of scans')
         .transform((value) => Number(value))
         .refine((value) => value > 0, {
-            message: 'Please enter a positive number',
+            message: 'Scan count must be at least 1',
+        })
+        .refine((value) => value <= 10, {
+            message: 'Scan count can not be more than 10',
         }),
 });
 
